@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل منشی فریور</title>
+  <style>
+:root{--terracotta:#BC532B;--terracotta-dark:#963D1C;--espresso:#241A10;--sand:#F4EEE5;--ivory:#FFFCF6;--clay:#D8C6B4;--blush:#E8CFC3;--sage:#5F7350;--ochre:#A87E2F;--brick:#B03A2E;--muted:#7b6d60;--line:rgba(36,26,16,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--espresso);font-family:"Vazirmatn","Vazir","Yekan","Tahoma",sans-serif;background:linear-gradient(160deg,#E4D7C7,#D8C6B4);-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{padding:18px;min-height:100vh}.shell{background:var(--ivory);border-radius:40px;padding:16px;display:flex;gap:18px;min-height:calc(100vh - 36px);box-shadow:0 40px 70px -35px rgba(36,26,16,.4)}
+.sidebar{width:84px;flex:0 0 84px;position:sticky;top:34px;align-self:flex-start;height:calc(100vh - 68px);background:var(--sand);border-radius:36px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+.brand:before{content:"ف";width:50px;height:50px;border-radius:50%;background:var(--terracotta);color:#fff;display:grid;place-items:center;font-size:23px;font-weight:900}.brand{margin-bottom:14px}.brand div{display:none}
+.nav{display:flex;flex-direction:column;gap:8px;align-items:center}.nav button{width:50px;height:50px;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:0;display:grid;place-items:center;transition:.15s}.nav .icon{font-size:20px}.nav button:hover{background:var(--ivory)}.nav button.active{background:var(--espresso);color:var(--ivory)}
+.side-foot{margin-top:auto;width:46px;height:46px;border-radius:50%;border:0;background:var(--clay);color:var(--espresso);font-size:18px}
+.main{flex:1;min-width:0;padding:6px 4px 20px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}.topbar h1{font-size:26px;margin:0}.topbar p{margin:4px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.date-chip{padding:10px 15px;border-radius:999px;background:var(--sand);font-size:12px;font-weight:800;white-space:nowrap}
+.btn{border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13px;transition:.15s}.btn-primary{background:var(--terracotta);color:#fff!important}.btn-primary:hover{background:var(--terracotta-dark)}.btn-soft{background:rgba(216,198,180,.5);color:var(--espresso)!important}.btn-soft:hover{background:var(--clay)}.btn-danger{background:#f6e2dd;color:var(--brick)!important}.btn-success{background:#e7efe2;color:var(--sage)!important}
+.card,.tile{background:var(--sand);border-radius:30px}.tile{padding:20px}.grid{display:grid;gap:14px}.two-col{grid-template-columns:1.25fr .75fr}.three-col{grid-template-columns:repeat(3,1fr)}.panel{padding:20px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}.panel-title{font-weight:900;font-size:15px}.muted{color:var(--muted)}
+.bento{display:grid;gap:14px;grid-template-columns:1.3fr 1fr 1fr;grid-template-areas:"hero hero flow" "hero hero flow" "quick stats recent"}.a-hero{grid-area:hero;position:relative}.a-flow{grid-area:flow}.a-quick{grid-area:quick;background:var(--terracotta);color:#fff}.a-stats{grid-area:stats}.a-recent{grid-area:recent}
+.hero-board{height:100%;min-height:350px;border-radius:34px;background:var(--espresso);color:var(--ivory);padding:26px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}.hero-board:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;left:-100px;bottom:-150px;background:var(--terracotta)}.hero-board:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;left:-150px;bottom:-200px;border:1px solid rgba(255,252,246,.12)}.hero-kicker{font-size:11px;letter-spacing:3px;direction:ltr;text-align:right;opacity:.55;position:relative;z-index:1}.next-card{position:relative;z-index:1}.next-label{font-size:12px;opacity:.6}.next-time{font-size:64px;font-weight:900;direction:ltr;text-align:right;line-height:1.15}.next-name{font-size:22px;font-weight:900}.next-service{font-size:13px;opacity:.65;margin-top:4px}.next-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.hero-btn{padding:10px 16px;border:0;border-radius:999px;font-size:12px;font-weight:800}.hero-btn.light{background:var(--ivory);color:var(--espresso)}.hero-btn.terracotta{background:var(--terracotta);color:#fff}
+.notch{position:absolute;right:-30px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;border:8px solid var(--ivory);background:var(--terracotta);color:#fff;font-size:18px;z-index:3;padding:0}
+.mini-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.mini-title{font-weight:900;font-size:14px}.mini-count{font-size:11px;color:var(--muted)}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip-btn{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:800}.chip-btn.solid{background:var(--espresso);border-color:var(--espresso)}.chip-btn:hover{background:rgba(255,255,255,.15)}.chip-btn.solid:hover{background:#3a2b1d}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hero-metric{background:var(--ivory);border-radius:20px;padding:12px 14px}.hero-metric span{font-size:11px;color:var(--muted)}.hero-metric strong{display:block;font-size:22px;margin-top:3px}
+.flow-list{display:grid;gap:8px}.flow-row{display:grid;grid-template-columns:50px 9px 1fr auto;align-items:center;gap:9px;padding:12px;border-radius:20px;background:var(--ivory)}.flow-time{font-size:13px;font-weight:900;direction:ltr;text-align:right}.flow-dot{width:9px;height:9px;border-radius:50%;background:var(--terracotta)}.flow-row.done .flow-dot{background:var(--sage)}.flow-row.cancelled .flow-dot{background:var(--brick)}.flow-main strong{display:block;font-size:13px}.flow-main span{display:block;font-size:11px;color:var(--muted);margin-top:2px}.flow-status{font-size:11px;color:var(--muted);font-weight:800}
+.customer-card{padding:13px 15px;border-radius:20px;background:var(--ivory);margin-bottom:8px}.card.customer-card{padding:18px;margin:0;background:var(--sand)}.customer-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.customer-name{font-weight:900}.customer-phone{font-size:12px;color:var(--muted);margin-top:4px;direction:ltr;text-align:right}.mini-actions{display:flex;gap:6px;flex-wrap:wrap}.mini{padding:6px 12px;border-radius:999px;border:0;background:var(--clay);color:var(--espresso)!important;font-size:11px;font-weight:800}.mini:hover{background:#cbb7a3}.mini.danger{background:#f6e2dd;color:var(--brick)!important}
+.search{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.search input{min-width:230px}.field{display:grid;gap:7px}.field label{font-size:12px;color:var(--muted);font-weight:800}input,select,textarea,.picker-display{width:100%;border:1px solid var(--line);background:var(--ivory);color:var(--espresso);border-radius:16px;padding:11px 13px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(188,83,43,.12)}textarea{min-height:90px;resize:vertical}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.form-grid .full{grid-column:1/-1}.picker-display{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;cursor:pointer;user-select:none}.picker-value{font-weight:800}.picker-arrow{color:var(--terracotta);font-weight:900}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(36,26,16,.5);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:20px;z-index:20}.modal-backdrop.show{display:flex}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:var(--sand);border-radius:32px;padding:24px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.close{border:0;background:var(--clay);color:var(--espresso);width:38px;height:38px;border-radius:50%}.modal-actions{display:flex;gap:8px;margin-top:16px}.page{display:none}.page.active{display:block}.empty{padding:28px;text-align:center;color:var(--muted);font-size:13px}
+.picker-overlay{position:fixed;inset:0;display:none;z-index:40;background:rgba(36,26,16,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:18px}.picker-overlay.show{display:flex}.picker-box{width:min(440px,100%);background:var(--sand);border-radius:32px;padding:20px}.picker-head,.month-nav{display:flex;align-items:center;justify-content:space-between;gap:8px}.picker-head{margin-bottom:12px}.month-nav{margin-bottom:12px}.month-nav button,.picker-head button{border:0;background:var(--clay);color:var(--espresso);border-radius:50%;width:36px;height:36px}.month-title{font-weight:900}.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.weekday{font-size:11px;color:var(--muted);text-align:center;padding:5px 0;font-weight:800}.day-btn{border:0;background:var(--ivory);color:var(--espresso);height:40px;border-radius:50%;font-weight:800}.day-btn:hover{background:var(--clay)}.day-btn.selected{background:var(--terracotta);color:#fff}.day-btn.today{box-shadow:inset 0 0 0 1.5px var(--terracotta)}.day-btn.empty-day{visibility:hidden}.calendar-note{font-size:11px;color:var(--muted);margin:12px 1px 0}.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-height:290px;overflow:auto}.time-btn{border:0;background:var(--ivory);color:var(--espresso);padding:10px 6px;border-radius:999px;font-weight:800}.time-btn:hover{background:var(--clay)}.time-btn.selected{background:var(--terracotta);color:#fff}.picker-actions{display:flex;gap:8px;margin-top:14px}.picker-actions .btn{flex:1}
+.profile-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}.profile-name{font-size:24px;font-weight:900}.profile-meta{font-size:13px;color:var(--muted);margin-top:5px}.notes{background:var(--ivory);padding:14px;border-radius:20px;font-size:13px;line-height:1.9}.mobile-nav{display:none}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0 7px}th,td{padding:11px 10px;text-align:right;font-size:13px;vertical-align:middle}th{font-size:11px;color:var(--muted);font-weight:800}tbody tr td{background:var(--ivory)}tbody tr td:first-child{border-radius:0 18px 18px 0}tbody tr td:last-child{border-radius:18px 0 0 18px}.pill{display:inline-flex;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:800}.pill.green{background:#e7efe2;color:var(--sage)}.pill.orange{background:#f8ecd8;color:var(--ochre)}.pill.red{background:#f6e2dd;color:var(--brick)}.pill.gray{background:#ece6df;color:#6f655c}
+@media(max-width:1100px){.bento{grid-template-columns:1fr 1fr;grid-template-areas:"hero hero" "flow flow" "quick stats" "recent recent"}.two-col{grid-template-columns:1fr}.three-col{grid-template-columns:repeat(2,1fr)}.notch{display:none}}
+@media(max-width:760px){.app{padding:8px 8px 92px}.shell{display:block;padding:14px;border-radius:30px}.sidebar{display:none}.bento{display:flex;flex-direction:column}.three-col{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.time-grid{grid-template-columns:repeat(3,1fr)}.next-time{font-size:48px}.topbar h1{font-size:22px}.mobile-nav{display:flex;position:fixed;bottom:0;right:0;left:0;z-index:15;margin:0 10px 10px;padding:7px;gap:4px;border-radius:999px;background:var(--espresso)}.mobile-nav button{flex:1;border:0;background:transparent;color:#fff1e5;padding:11px 4px;border-radius:999px;font-size:11px;font-weight:800}.mobile-nav button.active{background:var(--terracotta);color:#fff}}
+.sidebar{width:96px;flex-basis:96px}.nav button,.side-foot,.side-out{width:76px;height:66px;border-radius:24px;font-size:11px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;padding:0}.side-foot{background:var(--clay);color:var(--espresso)}.side-out{background:transparent;color:var(--brick);margin-top:6px}.side-out:hover{background:#f6e2dd}
+body:not(.authed) .app,body:not(.authed) .mobile-nav{display:none!important}body.authed #login{display:none}
+#login{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,#E4D7C7,#D8C6B4);z-index:100}.login-box{width:min(400px,100%);background:var(--ivory);border-radius:38px;padding:36px 28px;text-align:center;box-shadow:0 40px 70px -35px rgba(36,26,16,.4)}.login-logo{width:68px;height:68px;border-radius:50%;background:var(--terracotta);color:#fff;display:grid;place-items:center;font-size:30px;font-weight:900;margin:0 auto 14px}.login-box h2{margin:0 0 4px;font-size:22px}.login-box p{margin:0 0 22px;color:var(--muted);font-size:13px}.login-box .field{text-align:right;margin-bottom:14px}.login-box input{direction:ltr;text-align:left;font-size:16px;padding:14px}.login-box .btn{width:100%;padding:14px;font-size:15px;margin-top:6px}#loginErr{color:var(--brick);font-size:13px;font-weight:800;min-height:20px;margin-top:10px}
+#toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--espresso);color:#fff;padding:12px 24px;border-radius:999px;font-weight:800;font-size:13px;z-index:200;opacity:0;pointer-events:none;transition:.2s}#toast.show{opacity:1}#toast.bad{background:var(--brick)}
+</style>
+</head>
+<body>
+<div id="login"><form class="login-box" onsubmit="login(event)"><div class="login-logo">ف</div><h2>پنل پذیرش فریور</h2><p>نام کاربری و رمز عبور را وارد کنید</p><div class="field"><label>نام کاربری</label><input id="l_user" autocomplete="username" autocapitalize="none" required></div><div class="field"><label>رمز عبور</label><input id="l_pass" type="password" autocomplete="current-password" required></div><button class="btn btn-primary" id="l_btn">ورود</button><div id="loginErr"></div></form></div><div id="toast"></div>
+<div class="app"><div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div>FARIVAR</div></div>
+    <nav class="nav" id="sideNav">
+      <button class="active" data-page="dashboard" title="داشبورد"><span class="icon">⌂</span>داشبورد</button>
+      <button data-page="appointments" title="نوبت‌ها"><span class="icon">◷</span>نوبت‌ها</button>
+      <button data-page="customers" title="مشتری‌ها"><span class="icon">◯</span>مشتری‌ها</button>
+      <button data-page="invoices" title="فاکتورها"><span class="icon">▤</span>فاکتورها</button>
+    </nav>
+    <button class="side-foot" onclick="exportBackup()" title="دریافت فایل پشتیبان"><span style="font-size:18px">⇩</span>پشتیبان</button><button class="side-out" onclick="logout()" title="خروج"><span style="font-size:18px">⎋</span>خروج</button>
+  </aside>
+
+  <main class="main">
+    <section class="page active" id="dashboard">
+<div class="topbar"><div><h1>امروز در فریور</h1><p>نوبت‌ها، مشتری‌ها و پرداخت‌ها در یک نگاه.</p></div><div class="actions"><span class="date-chip" id="heroDateChip">—</span><button class="btn btn-primary" onclick="openAppointmentModal()">＋ ثبت نوبت</button><button class="btn btn-soft" onclick="openCustomerModal()">＋ مشتری جدید</button></div></div>
+<div class="bento">
+<div class="a-hero"><div class="hero-board"><div class="hero-kicker">FARIVAR · RECEPTION</div><div class="next-card" id="nextAppointmentCard"></div></div><button class="notch" onclick="showPage('appointments')" title="همه نوبت‌ها">←</button></div>
+<div class="tile a-flow"><div class="mini-head"><div class="mini-title">برنامه امروز</div><div class="mini-count" id="flowCount">۰ نوبت</div></div><div id="todayAppointments" class="flow-list"></div></div>
+<div class="tile a-quick"><div class="mini-head"><div class="mini-title">دسترسی سریع</div></div><div class="chips"><button class="chip-btn solid" onclick="openInvoiceModal()">＋ فاکتور</button><button class="chip-btn" onclick="showPage('appointments')">نوبت‌ها</button><button class="chip-btn" onclick="showPage('customers')">جستجوی مشتری</button><button class="chip-btn" onclick="exportBackup()">پشتیبان‌گیری</button><button class="chip-btn" onclick="logout()">خروج</button></div></div>
+<div class="tile a-stats"><div class="stats"><div class="hero-metric"><span>نوبت امروز</span><strong id="heroAppointments">۰</strong></div><div class="hero-metric"><span>مشتری‌ها</span><strong id="heroCustomers">۰</strong></div><div class="hero-metric"><span>پرداخت‌نشده</span><strong id="heroUnpaid">۰</strong></div><div class="hero-metric"><span>فروش (هزار تومان)</span><strong id="heroSales">۰</strong></div></div></div>
+<div class="tile a-recent"><div class="mini-head"><div class="mini-title">مشتری‌های اخیر</div><button class="mini" onclick="showPage('customers')">همه</button></div><div id="recentCustomers"></div></div>
+</div></section>
+
+    <section class="page" id="appointments">
+      <div class="topbar">
+        <div><h1>نوبت‌ها</h1><p>ثبت، ویرایش، لغو و حذف نوبت‌ها.</p></div>
+        <div class="actions"><button class="btn btn-primary" onclick="openAppointmentModal()">＋ ثبت نوبت</button></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head">
+          <div class="search"><input id="appointmentSearch" placeholder="جستجو نام مشتری، خدمت یا موبایل..." oninput="renderAppointments()"></div>
+          <select id="appointmentFilter" onchange="renderAppointments()" style="max-width:170px">
+            <option value="all">همه وضعیت‌ها</option>
+            <option value="reserved">رزرو شده</option>
+            <option value="done">انجام شد</option>
+            <option value="cancelled">لغو شده</option>
+          </select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>ساعت</th><th>مشتری</th><th>خدمت</th><th>پرسنل</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="appointmentsBody"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="customers">
+      <div class="topbar">
+        <div><h1>مشتری‌ها</h1><p>پرونده مشتری، شماره تماس و سابقه مراجعه.</p></div>
+        <div class="actions"><button class="btn btn-primary" onclick="openCustomerModal()">＋ مشتری جدید</button></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head"><div class="search"><input id="customerSearch" placeholder="جستجو نام یا موبایل..." oninput="renderCustomers()"></div></div>
+        <div id="customerCards" class="grid three-col"></div>
+      </div>
+    </section>
+
+    <section class="page" id="profile">
+      <div class="topbar">
+        <div><h1>پرونده مشتری</h1><p>اطلاعات تماس، یادداشت‌ها، نوبت‌ها و فاکتورها.</p></div>
+        <button class="btn btn-soft" onclick="showPage('customers')">بازگشت به مشتری‌ها</button>
+      </div>
+      <div id="profileContent"></div>
+    </section>
+
+    <section class="page" id="invoices">
+      <div class="topbar">
+        <div><h1>فاکتورها</h1><p>ثبت، ویرایش و پیگیری پرداخت‌ها.</p></div>
+        <div class="actions"><button class="btn btn-primary" onclick="openInvoiceModal()">＋ ثبت فاکتور</button></div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head">
+          <div class="search"><input id="invoiceSearch" placeholder="جستجو مشتری یا توضیحات..." oninput="renderInvoices()"></div>
+          <select id="invoiceFilter" onchange="renderInvoices()" style="max-width:160px">
+            <option value="all">همه پرداخت‌ها</option><option value="paid">پرداخت شده</option><option value="unpaid">پرداخت نشده</option>
+          </select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>مشتری</th><th>مبلغ</th><th>وضعیت</th><th>توضیحات</th><th>عملیات</th></tr></thead><tbody id="invoicesBody"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div></div>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="active" data-page="dashboard">داشبورد</button>
+  <button data-page="appointments">نوبت‌ها</button>
+  <button data-page="customers">مشتری‌ها</button>
+  <button data-page="invoices">فاکتورها</button>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="backdropClose(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head"><strong id="modalTitle">فرم</strong><button class="close" onclick="closeModal()">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="picker-overlay" id="datePickerOverlay" onclick="if(event.target.id==='datePickerOverlay')closePicker()"><div class="picker-box"><div class="picker-head"><strong>انتخاب تاریخ</strong><button onclick="closePicker()">×</button></div><div class="month-nav"><button onclick="changePickerMonth(-1)">‹</button><div class="month-title" id="pickerMonthTitle"></div><button onclick="changePickerMonth(1)">›</button></div><div class="calendar-grid" id="pickerCalendar"></div><div class="calendar-note">تاریخ را فقط از تقویم انتخاب کنید.</div><div class="picker-actions"><button class="btn btn-soft" onclick="closePicker()">انصراف</button></div></div></div>
+<div class="picker-overlay" id="timePickerOverlay" onclick="if(event.target.id==='timePickerOverlay')closePicker()"><div class="picker-box"><div class="picker-head"><strong>انتخاب ساعت</strong><button onclick="closePicker()">×</button></div><div class="time-grid" id="timeGrid"></div><div class="picker-actions"><button class="btn btn-soft" onclick="closePicker()">انصراف</button></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// ===== تنظیمات Supabase (از Project Settings > API) =====
+const SB_URL='https://YOUR-PROJECT.supabase.co';
+const SB_KEY='YOUR-ANON-PUBLIC-KEY';
+const USER_DOMAIN='@farivar.app';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let db={customers:[],appointments:[],invoices:[]};
+let currentProfileId = null;
+let modalMode = null;
+let editingId = null;
+
+function toast(m,bad){const t=document.getElementById('toast');t.textContent=m;t.className='show'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',2600)}
+async function refresh(){
+  const q=n=>sb.from(n).select('*').order('id'),[c,a,i]=await Promise.all([q('customers'),q('appointments'),q('invoices')]);
+  if(c.error||a.error||i.error){toast('اطلاعات دریافت نشد. اینترنت را بررسی کنید.',1);return}
+  db.customers=c.data.map(x=>({id:x.id,name:x.name,phone:x.phone,notes:x.notes||'',created:(x.created_at||'').slice(0,10)}));
+  db.appointments=a.data.map(x=>({id:x.id,customerId:x.customer_id,date:x.date,time:String(x.time).slice(0,5),service:x.service,staff:x.staff||'',status:x.status}));
+  db.invoices=i.data.map(x=>({id:x.id,customerId:x.customer_id,date:x.date,amount:Number(x.amount),status:x.status,notes:x.notes||''}));
+  renderAll();
+}
+async function run(q,ok){const {error}=await q;if(error){console.error(error);toast('ذخیره نشد. دوباره تلاش کنید.',1);return false}if(ok)toast(ok);await refresh();return true}
+async function login(e){e.preventDefault();const b=document.getElementById('l_btn'),err=document.getElementById('loginErr');b.disabled=true;err.textContent='';
+  const {error}=await sb.auth.signInWithPassword({email:document.getElementById('l_user').value.trim().toLowerCase()+USER_DOMAIN,password:document.getElementById('l_pass').value});
+  b.disabled=false;if(error){err.textContent='نام کاربری یا رمز عبور درست نیست.';return}enter();}
+async function enter(){document.body.classList.add('authed');await refresh()}
+async function logout(){await sb.auth.signOut();location.reload()}
+
+function faNum(n){ return new Intl.NumberFormat('fa-IR').format(n); }
+function faYear(n){ return new Intl.NumberFormat('fa-IR',{useGrouping:false}).format(n); }
+function money(n){ return faNum(n) + ' تومان'; }
+function customerName(id){
+  const c=db.customers.find(x=>x.id===Number(id)); return c ? c.name : 'مشتری حذف شده';
+}
+function escapeHtml(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function isoLocal(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function todayISO(){ return isoLocal(new Date()); }
+function dayShift(n){const d=new Date();d.setDate(d.getDate()+n);return isoLocal(d)}
+function nextId(arr){ return arr.length ? Math.max(...arr.map(x=>Number(x.id)||0))+1 : 1; }
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active', b.dataset.page===(id==='profile'?'customers':id)));
+  if(id==='dashboard') renderDashboard();
+  if(id==='appointments') renderAppointments();
+  if(id==='customers') renderCustomers();
+  if(id==='invoices') renderInvoices();
+  if(id==='profile') renderProfile();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('[data-page]').forEach(btn=>btn.addEventListener('click',()=>showPage(btn.dataset.page)));
+
+function renderDashboard(){
+ const today=todayISO(), todays=db.appointments.filter(a=>a.date===today&&a.status!=='cancelled').sort((a,b)=>a.time.localeCompare(b.time));
+ const unpaid=db.invoices.filter(i=>i.status==='unpaid').length, sales=db.invoices.filter(i=>i.status==='paid').reduce((s,i)=>s+Number(i.amount||0),0);
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+ set('dashboardDate',formatJalaliFromISO(today));set('heroDateChip',formatJalaliFromISO(today));set('kpiAppointments',faNum(todays.length));set('kpiCustomers',faNum(db.customers.length));set('kpiUnpaid',faNum(unpaid));set('kpiSales',money(sales));set('heroAppointments',faNum(todays.length));set('heroCustomers',faNum(db.customers.length));set('heroUnpaid',faNum(unpaid));set('heroSales',faNum(Math.round(sales/1000)));set('flowCount',faNum(todays.length)+' نوبت');
+ const nowT=new Date().toTimeString().slice(0,5),next=todays.find(a=>a.status==='reserved'&&a.time>=nowT)||todays.find(a=>a.status==='reserved')||todays[0], card=document.getElementById('nextAppointmentCard');
+ if(next) card.innerHTML=`<div class="next-label">نزدیک‌ترین نوبت</div><div class="next-time">${escapeHtml(next.time)}</div><div class="next-name">${escapeHtml(customerName(next.customerId))}</div><div class="next-service">${escapeHtml(next.service)} · ${escapeHtml(next.staff)}</div><div class="next-actions"><button class="hero-btn light" onclick="openProfile(${next.customerId})">پرونده مشتری</button><button class="hero-btn terracotta" onclick="openAppointmentModal(${next.id})">ویرایش نوبت</button></div>`;
+ else card.innerHTML='<div class="next-label">نزدیک‌ترین نوبت</div><div class="next-time">—</div><div class="next-name">نوبتی برای امروز نیست</div><div class="next-actions"><button class="hero-btn terracotta" onclick="openAppointmentModal()">＋ ثبت نوبت</button></div>';
+ const list=document.getElementById('todayAppointments'); list.innerHTML=todays.length?todays.map(a=>`<div class="flow-row ${a.status==='done'?'done':a.status==='cancelled'?'cancelled':''}"><div class="flow-time">${escapeHtml(a.time)}</div><div class="flow-dot"></div><div class="flow-main"><strong>${escapeHtml(customerName(a.customerId))}</strong><span>${escapeHtml(a.service)} · ${escapeHtml(a.staff)}</span></div><div class="flow-status">${a.status==='done'?'انجام شد':a.status==='cancelled'?'لغو شده':'رزرو'}</div></div>`).join(''):'<div class="empty">برای امروز نوبتی ثبت نشده.</div>';
+ const recent=[...db.customers].sort((a,b)=>String(b.created).localeCompare(String(a.created))).slice(0,4), rc=document.getElementById('recentCustomers'); rc.innerHTML=recent.length?recent.map(c=>`<div class="customer-card"><div class="customer-row"><div><div class="customer-name">${escapeHtml(c.name)}</div><div class="customer-phone">${escapeHtml(c.phone)}</div></div><button class="mini" onclick="openProfile(${c.id})">پرونده</button></div></div>`).join(''):'<div class="empty">هنوز مشتری ثبت نشده.</div>';
+}
+
+function statusPill(status){
+  const map={reserved:['رزرو شده','orange'],done:['انجام شد','green'],cancelled:['لغو شده','red']};
+  const [t,c]=map[status]||['نامشخص','gray']; return `<span class="pill ${c}">${t}</span>`;
+}
+function paymentPill(s){ return s==='paid'?'<span class="pill green">پرداخت شده</span>':'<span class="pill orange">پرداخت نشده</span>'; }
+
+function renderAppointments(){
+  const q=(document.getElementById('appointmentSearch')?.value||'').trim().toLowerCase();
+  const f=document.getElementById('appointmentFilter')?.value||'all';
+  const rows=db.appointments.filter(a=>{
+    const text=(customerName(a.customerId)+' '+a.service+' '+a.staff).toLowerCase();
+    return (!q||text.includes(q)||String(a.time).includes(q)) && (f==='all'||a.status===f);
+  }).sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  document.getElementById('appointmentsBody').innerHTML=rows.length ? rows.map(a=>`
+    <tr>
+      <td>${escapeHtml(formatJalaliFromISO(a.date))}</td><td>${escapeHtml(a.time)}</td><td><button class="mini" onclick="openProfile(${a.customerId})">${escapeHtml(customerName(a.customerId))}</button></td>
+      <td>${escapeHtml(a.service)}</td><td>${escapeHtml(a.staff)}</td><td>${statusPill(a.status)}</td>
+      <td><div class="mini-actions">
+        <button class="mini" onclick="openAppointmentModal(${a.id})">ویرایش</button>
+        ${a.status!=='cancelled'?`<button class="mini" onclick="changeAppointmentStatus(${a.id},'cancelled')">لغو</button>`:''}
+        ${a.status==='reserved'?`<button class="mini" onclick="changeAppointmentStatus(${a.id},'done')">انجام شد</button>`:''}
+        <button class="mini danger" onclick="deleteAppointment(${a.id})">حذف</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="7"><div class="empty">نوبتی پیدا نشد.</div></td></tr>';
+}
+
+function renderCustomers(){
+  const q=(document.getElementById('customerSearch')?.value||'').trim().toLowerCase();
+  const rows=db.customers.filter(c=>!q||c.name.toLowerCase().includes(q)||c.phone.includes(q));
+  document.getElementById('customerCards').innerHTML=rows.length ? rows.map(c=>{
+    const count=db.appointments.filter(a=>a.customerId===c.id && a.status!=='cancelled').length;
+    return `<div class="card customer-card">
+      <div class="customer-row">
+        <div><div class="customer-name">${escapeHtml(c.name)}</div><div class="customer-phone">${escapeHtml(c.phone)}</div></div>
+        <button class="mini" onclick="openProfile(${c.id})">پرونده</button>
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:13px">تعداد مراجعات ثبت‌شده: ${faNum(count)}</div>
+      <div class="mini-actions" style="margin-top:12px">
+        <button class="mini" onclick="openCustomerModal(${c.id})">ویرایش</button>
+        <button class="mini danger" onclick="deleteCustomer(${c.id})">حذف</button>
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty" style="grid-column:1/-1">مشتری‌ای پیدا نشد.</div>';
+}
+
+function renderInvoices(){
+  const q=(document.getElementById('invoiceSearch')?.value||'').trim().toLowerCase();
+  const f=document.getElementById('invoiceFilter')?.value||'all';
+  const rows=db.invoices.filter(i=>(!q||(customerName(i.customerId)+' '+i.notes).toLowerCase().includes(q))&&(f==='all'||i.status===f)).sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('invoicesBody').innerHTML=rows.length ? rows.map(i=>`
+    <tr>
+      <td>${escapeHtml(formatJalaliFromISO(i.date))}</td><td><button class="mini" onclick="openProfile(${i.customerId})">${escapeHtml(customerName(i.customerId))}</button></td>
+      <td><strong>${money(Number(i.amount||0))}</strong></td><td>${paymentPill(i.status)}</td><td>${escapeHtml(i.notes||'-')}</td>
+      <td><div class="mini-actions"><button class="mini" onclick="openInvoiceModal(${i.id})">ویرایش</button>${i.status==='unpaid'?`<button class="mini" onclick="markPaid(${i.id})">پرداخت شد</button>`:''}<button class="mini danger" onclick="deleteInvoice(${i.id})">حذف</button></div></td>
+    </tr>`).join('') : '<tr><td colspan="6"><div class="empty">فاکتوری پیدا نشد.</div></td></tr>';
+}
+
+function openProfile(id){ currentProfileId=id; showPage('profile'); }
+function renderProfile(){
+  const c=db.customers.find(x=>x.id===currentProfileId);
+  if(!c){ document.getElementById('profileContent').innerHTML='<div class="card panel empty">پرونده پیدا نشد.</div>'; return; }
+  const aps=db.appointments.filter(a=>a.customerId===c.id).sort((a,b)=>b.date.localeCompare(a.date)||b.time.localeCompare(a.time));
+  const invs=db.invoices.filter(i=>i.customerId===c.id).sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('profileContent').innerHTML=`
+    <div class="grid two-col">
+      <div class="card panel">
+        <div class="profile-top"><div><div class="profile-name">${escapeHtml(c.name)}</div><div class="profile-meta">${escapeHtml(c.phone)}</div></div>
+        <div class="actions"><button class="btn btn-soft" onclick="openCustomerModal(${c.id})">ویرایش پرونده</button><button class="btn btn-primary" onclick="openAppointmentModal(null,${c.id})">ثبت نوبت</button></div></div>
+        <div style="margin-top:17px" class="notes">${escapeHtml(c.notes||'یادداشتی ثبت نشده.')}</div>
+      </div>
+      <div class="card panel">
+        <div class="panel-title">خلاصه</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px">
+          <div class="notes">نوبت‌ها<br><strong style="font-size:22px">${faNum(aps.length)}</strong></div>
+          <div class="notes">فاکتورها<br><strong style="font-size:22px">${faNum(invs.length)}</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="card panel" style="margin-top:16px">
+      <div class="panel-head"><div class="panel-title">سابقه نوبت‌ها</div></div>
+      <div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>ساعت</th><th>خدمت</th><th>پرسنل</th><th>وضعیت</th></tr></thead><tbody>
+      ${aps.length?aps.map(a=>`<tr><td>${escapeHtml(formatJalaliFromISO(a.date))}</td><td>${a.time}</td><td>${escapeHtml(a.service)}</td><td>${escapeHtml(a.staff)}</td><td>${statusPill(a.status)}</td></tr>`).join(''):'<tr><td colspan="5"><div class="empty">سابقه‌ای ثبت نشده.</div></td></tr>'}
+      </tbody></table></div>
+    </div>
+    <div class="card panel" style="margin-top:16px">
+      <div class="panel-head"><div class="panel-title">سابقه فاکتورها</div><button class="btn btn-soft" onclick="openInvoiceModal(null,${c.id})">ثبت فاکتور</button></div>
+      <div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th><th>توضیحات</th></tr></thead><tbody>
+      ${invs.length?invs.map(i=>`<tr><td>${escapeHtml(formatJalaliFromISO(i.date))}</td><td>${money(Number(i.amount||0))}</td><td>${paymentPill(i.status)}</td><td>${escapeHtml(i.notes||'-')}</td></tr>`).join(''):'<tr><td colspan="4"><div class="empty">فاکتوری ثبت نشده.</div></td></tr>'}
+      </tbody></table></div>
+    </div>`;
+}
+
+function openModal(title,body){ document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalBackdrop').classList.add('show'); }
+function closeModal(){ document.getElementById('modalBackdrop').classList.remove('show'); modalMode=null; editingId=null; }
+function backdropClose(e){ if(e.target.id==='modalBackdrop') closeModal(); }
+
+function customerOptions(selected){
+  return db.customers.map(c=>`<option value="${c.id}" ${Number(selected)===c.id?'selected':''}>${escapeHtml(c.name)} — ${escapeHtml(c.phone)}</option>`).join('');
+}
+
+function openCustomerModal(id=null){
+  const c=id?db.customers.find(x=>x.id===id):null; modalMode='customer';editingId=id;
+  openModal(id?'ویرایش پرونده مشتری':'ثبت مشتری جدید',`
+    <div class="form-grid">
+      <div class="field"><label>نام و نام خانوادگی</label><input id="f_name" value="${escapeHtml(c?.name||'')}" placeholder="مثلاً سارا محمدی"></div>
+      <div class="field"><label>شماره موبایل</label><input id="f_phone" value="${escapeHtml(c?.phone||'')}" placeholder="0912..."></div>
+      <div class="field full"><label>یادداشت پرونده</label><textarea id="f_notes" placeholder="رنگ مو، ترجیحات، نکات مهم...">${escapeHtml(c?.notes||'')}</textarea></div>
+    </div>
+    <div class="modal-actions"><button class="btn btn-primary" onclick="saveCustomer()">ذخیره</button><button class="btn btn-soft" onclick="closeModal()">انصراف</button></div>
+  `);
+}
+
+function openAppointmentModal(id=null,presetCustomerId=null){
+  const a=id?db.appointments.find(x=>x.id===id):null;modalMode='appointment';editingId=id;
+  const cust=a?.customerId||presetCustomerId||db.customers[0]?.id||'';
+  openModal(id?'ویرایش نوبت':'ثبت نوبت جدید',`
+    <div class="form-grid">
+      <div class="field"><label>مشتری</label><select id="a_customer">${customerOptions(cust)}</select></div>
+      <div class="field"><label>خدمت</label><input id="a_service" list="svcList" value="${escapeHtml(a?.service||'')}" placeholder="مثلاً کوتاهی، رنگ، براشینگ"></div>
+      <div class="field"><label>تاریخ</label><div class="picker-display" id="a_date_picker" onclick="openDatePicker()"><span class="picker-value" id="a_date_label">${formatJalaliFromISO(a?.date||todayISO())}</span><span class="picker-arrow">⌄</span></div><input type="hidden" id="a_date" value="${a?.date||todayISO()}"></div>
+      <div class="field"><label>ساعت</label><div class="picker-display" id="a_time_picker" onclick="openTimePicker()"><span class="picker-value" id="a_time_label">${a?.time||'10:00'}</span><span class="picker-arrow">⌄</span></div><input type="hidden" id="a_time" value="${a?.time||'10:00'}"></div>
+      <datalist id="svcList"><option value="کوتاهی"><option value="رنگ مو"><option value="لایت"><option value="براشینگ"><option value="مانیکور"><option value="پدیکور"><option value="اصلاح ابرو"><option value="پاکسازی پوست"><option value="میکاپ"><option value="شینیون"></datalist><div class="field"><label>پرسنل</label><input id="a_staff" value="${escapeHtml(a?.staff||'خانم فریور')}" placeholder="نام پرسنل"></div>
+      <div class="field"><label>وضعیت</label><select id="a_status"><option value="reserved">رزرو شده</option><option value="done">انجام شد</option><option value="cancelled">لغو شده</option></select></div>
+    </div>
+    <div class="modal-actions"><button class="btn btn-primary" onclick="saveAppointment()">ذخیره</button><button class="btn btn-soft" onclick="closeModal()">انصراف</button></div>
+  `);
+  if(a) document.getElementById('a_status').value=a.status;
+}
+
+
+
+function openInvoiceModal(id=null,presetCustomerId=null){
+  const i=id?db.invoices.find(x=>x.id===id):null;modalMode='invoice';editingId=id;const cust=i?.customerId||presetCustomerId||db.customers[0]?.id||'';
+  openModal(id?'ویرایش فاکتور':'ثبت فاکتور جدید',`
+    <div class="form-grid">
+      <div class="field"><label>مشتری</label><select id="i_customer">${customerOptions(cust)}</select></div>
+      <div class="field"><label>تاریخ</label><div class="picker-display" onclick="openInvoiceDatePicker()"><span class="picker-value" id="i_date_label">${formatJalaliFromISO(i?.date||todayISO())}</span><span class="picker-arrow">⌄</span></div><input type="hidden" id="i_date" value="${i?.date||todayISO()}"></div>
+      <div class="field"><label>مبلغ (تومان)</label><input type="number" id="i_amount" min="0" value="${i?.amount||''}" placeholder="مثلاً 1850000"></div>
+      <div class="field"><label>وضعیت پرداخت</label><select id="i_status"><option value="paid">پرداخت شده</option><option value="unpaid">پرداخت نشده</option></select></div>
+      <div class="field full"><label>توضیحات</label><textarea id="i_notes" placeholder="خدمت یا توضیح کوتاه...">${escapeHtml(i?.notes||'')}</textarea></div>
+    </div>
+    <div class="modal-actions"><button class="btn btn-primary" onclick="saveInvoice()">ذخیره</button><button class="btn btn-soft" onclick="closeModal()">انصراف</button></div>
+  `);
+  if(i) document.getElementById('i_status').value=i.status;
+}
+
+
+
+
+async function saveCustomer(){
+  const name=document.getElementById('f_name').value.trim(),phone=document.getElementById('f_phone').value.trim(),notes=document.getElementById('f_notes').value.trim();
+  const ph=phone.replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+  if(!name||!/^09\d{9}$/.test(ph)){alert('نام و شماره موبایل معتبر (مثل 09121234567) را وارد کنید.');return}
+  const id=editingId,row={name,phone:ph,notes};closeModal();
+  await run(id?sb.from('customers').update(row).eq('id',id):sb.from('customers').insert(row),'ذخیره شد');
+}
+async function saveAppointment(){
+  const customer_id=Number(document.getElementById('a_customer').value),service=document.getElementById('a_service').value.trim(),date=document.getElementById('a_date').value,time=document.getElementById('a_time').value,staff=document.getElementById('a_staff').value.trim(),status=document.getElementById('a_status').value;
+  if(!customer_id||!service||!date||!time){alert('مشتری، خدمت، تاریخ و ساعت الزامی است.');return}
+  const clash=db.appointments.find(x=>x.id!==editingId&&x.date===date&&x.time===time&&x.staff===staff&&x.status!=='cancelled'&&status!=='cancelled');
+  if(clash&&!confirm('برای این پرسنل در همین روز و ساعت نوبت دیگری ثبت شده ('+customerName(clash.customerId)+'). باز هم ذخیره شود؟'))return;
+  const id=editingId,row={customer_id,service,date,time,staff,status};closeModal();
+  await run(id?sb.from('appointments').update(row).eq('id',id):sb.from('appointments').insert(row),'ذخیره شد');
+}
+async function changeAppointmentStatus(id,status){await run(sb.from('appointments').update({status}).eq('id',id),status==='done'?'انجام شد':'نوبت لغو شد')}
+async function deleteAppointment(id){if(confirm('این نوبت حذف شود؟'))await run(sb.from('appointments').delete().eq('id',id),'حذف شد')}
+async function saveInvoice(){
+  const customer_id=Number(document.getElementById('i_customer').value),date=document.getElementById('i_date').value,amount=Number(document.getElementById('i_amount').value),status=document.getElementById('i_status').value,notes=document.getElementById('i_notes').value.trim();
+  if(!customer_id||!date||!amount){alert('مشتری، تاریخ و مبلغ را وارد کنید.');return}
+  const id=editingId,row={customer_id,date,amount,status,notes};closeModal();
+  await run(id?sb.from('invoices').update(row).eq('id',id):sb.from('invoices').insert(row),'ذخیره شد');
+}
+async function markPaid(id){await run(sb.from('invoices').update({status:'paid'}).eq('id',id),'پرداخت ثبت شد')}
+async function deleteInvoice(id){if(confirm('این فاکتور حذف شود؟'))await run(sb.from('invoices').delete().eq('id',id),'حذف شد')}
+async function deleteCustomer(id){
+  if(db.appointments.some(a=>a.customerId===id&&a.status==='reserved')){alert('این مشتری نوبت رزروشده دارد. اول نوبت‌هایش را لغو یا حذف کنید.');return}
+  let m='این مشتری حذف شود؟';if(db.appointments.some(a=>a.customerId===id)||db.invoices.some(i=>i.customerId===id))m+='\nسابقه نوبت و فاکتورهایش می‌ماند، اما بدون نام مشتری نمایش داده می‌شود.';
+  if(confirm(m))await run(sb.from('customers').delete().eq('id',id),'حذف شد');
+}
+const jalaliMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const weekdays=['ش','ی','د','س','چ','پ','ج'];
+function gregorianToJalali(gy,gm,gd){const gdm=[0,31,59,90,120,151,181,212,243,273,304,334],jy=gy<=1600?0:979;let gy2=gy<=1600?gy-621:gy-1600;let days=365*gy2+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)-80+gd+gdm[gm-1];if(gm>2&&((gy%4===0&&gy%100!==0)||gy%400===0))days++;let jy2=jy+33*Math.floor(days/12053);days%=12053;jy2+=4*Math.floor(days/1461);days%=1461;if(days>365){jy2+=Math.floor((days-1)/365);days=(days-1)%365}let jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);let jd=1+(days<186?days%31:(days-186)%30);return[jy2,jm,jd]}
+function jalaliToGregorian(jy,jm,jd){jy+=1595;let days=-355668+365*jy+Math.floor(jy/33)*8+Math.floor((jy%33+3)/4)+jd+(jm<7?(jm-1)*31:(jm-7)*30+186);let gy=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365}let gd=days+1, sal=[0,31,(gy%4===0&&gy%100!==0)||gy%400===0?29:28,31,30,31,30,31,31,30,31,30,31],gm=1;while(gd>sal[gm]){gd-=sal[gm++]}return[gy,gm,gd]}
+function formatJalaliFromISO(iso){if(!iso)return'';const [y,m,d]=iso.split('-').map(Number),j=gregorianToJalali(y,m,d);return `${faNum(j[2])} ${jalaliMonths[j[1]-1]} ${faYear(j[0])}`}
+function isoFromJalali(jy,jm,jd){const g=jalaliToGregorian(jy,jm,jd);return `${g[0]}-${String(g[1]).padStart(2,'0')}-${String(g[2]).padStart(2,'0')}`}
+function todayJ(){const d=new Date();return gregorianToJalali(d.getFullYear(),d.getMonth()+1,d.getDate())}
+let pickerTarget='appointment',pickerJ=null;
+function openDatePicker(){pickerTarget='appointment';const v=document.getElementById('a_date')?.value||todayISO();const [y,m,d]=v.split('-').map(Number);pickerJ=gregorianToJalali(y,m,d);renderDatePicker();document.getElementById('datePickerOverlay').classList.add('show')}
+function openInvoiceDatePicker(){pickerTarget='invoice';const v=document.getElementById('i_date')?.value||todayISO();const [y,m,d]=v.split('-').map(Number);pickerJ=gregorianToJalali(y,m,d);renderDatePicker();document.getElementById('datePickerOverlay').classList.add('show')}
+function closePicker(){document.querySelectorAll('.picker-overlay').forEach(x=>x.classList.remove('show'))}
+function changePickerMonth(delta){let y=pickerJ[0],m=pickerJ[1]+delta;if(m<1){m=12;y--}if(m>12){m=1;y++}pickerJ=[y,m,1];renderDatePicker()}
+function jalaliMonthDays(y,m){if(m<=6)return 31;if(m<=11)return 30;const g=jalaliToGregorian(y+1,1,1),t=new Date(g[0],g[1]-1,g[2]);t.setDate(t.getDate()-1);const j=gregorianToJalali(t.getFullYear(),t.getMonth()+1,t.getDate());return j[1]===12?j[2]:29}
+function renderDatePicker(){const y=pickerJ[0],m=pickerJ[1],selected=pickerJ[2];document.getElementById('pickerMonthTitle').textContent=`${jalaliMonths[m-1]} ${faYear(y)}`;const first=isoFromJalali(y,m,1),[gy,gm,gd]=first.split('-').map(Number),js=new Date(gy,gm-1,gd),offset=(js.getDay()+1)%7;let out=weekdays.map(x=>`<div class="weekday">${x}</div>`).join('');for(let i=0;i<offset;i++)out+='<button class="day-btn empty-day"></button>';const days=jalaliMonthDays(y,m),tj=todayJ();for(let d=1;d<=days;d++){const sel=d===selected,ist=tj[0]===y&&tj[1]===m&&tj[2]===d;out+=`<button class="day-btn ${sel?'selected':''} ${ist?'today':''}" onclick="selectPickerDate(${d})">${faNum(d)}</button>`}document.getElementById('pickerCalendar').innerHTML=out}
+function selectPickerDate(d){const iso=isoFromJalali(pickerJ[0],pickerJ[1],d);if(pickerTarget==='appointment'){document.getElementById('a_date').value=iso;document.getElementById('a_date_label').textContent=formatJalaliFromISO(iso)}else{document.getElementById('i_date').value=iso;document.getElementById('i_date_label').textContent=formatJalaliFromISO(iso)}closePicker()}
+function openTimePicker(){const current=document.getElementById('a_time')?.value||'10:00';const grid=document.getElementById('timeGrid');let out='';for(let h=9;h<=20;h++){for(let mm of [0,30]){const t=`${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;out+=`<button class="time-btn ${t===current?'selected':''}" onclick="selectPickerTime('${t}')">${t}</button>`}}grid.innerHTML=out;document.getElementById('timePickerOverlay').classList.add('show')}
+function selectPickerTime(t){document.getElementById('a_time').value=t;document.getElementById('a_time_label').textContent=t;closePicker()}
+
+function exportBackup(){const b=new Blob([JSON.stringify(db,null,1)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='farivar-backup-'+todayISO()+'.json';a.click()}
+function renderAll(){renderDashboard();renderAppointments();renderCustomers();renderInvoices();if(document.getElementById('profile').classList.contains('active'))renderProfile();}
+sb.auth.getSession().then(({data})=>{if(data.session)enter()});
+</script>
+</body>
+</html>
